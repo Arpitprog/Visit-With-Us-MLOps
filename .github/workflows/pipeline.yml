@@ -1,0 +1,35 @@
+name: Visit With Us Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Data Validation
+        run: python src/data_validation.py
+
+      - name: Data Preparation
+        run: python src/data_preparation.py
+
+      - name: Train Model
+        run: python src/train_model.py
+
+      - name: Evaluate Model
+        run: python src/evaluate.py
